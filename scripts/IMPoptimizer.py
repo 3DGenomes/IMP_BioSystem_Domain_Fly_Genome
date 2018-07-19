@@ -3,6 +3,7 @@
 
 
 """
+from __future__ import print_function
 from math      import log10, fabs, pow as power
 from scipy.stats                    import spearmanr
 from scipy                         import polyfit
@@ -258,7 +259,7 @@ class IMPoptimizer(object):
                                     stderr.write(verb + str(round(result, 4))
                                                  + '\n')
                                 else:
-                                    print verb + str(round(result, 4))
+                                    print(verb + str(round(result, 4)))
                             continue
                         tmp = {'kforce'   : 5,
                                'lowrdist' : 100,
@@ -288,7 +289,7 @@ class IMPoptimizer(object):
                                     result = sub_result
                                     cutoff = my_round(cut)
                         except Exception, e:
-                            print '  SKIPPING: %s' % e
+                            print('  SKIPPING: %s' % e)
                             result = 0
                             cutoff = my_round(dcutoff_arange[0])
                         if verbose:
@@ -299,7 +300,7 @@ class IMPoptimizer(object):
                                 stderr.write(verb + str(round(result, 4))
                                              + '\n')
                             else:
-                                print verb + str(round(result, 4))
+                                print(verb + str(round(result, 4)))
                         # store
                         self.results[(scale, maxdist,
                                       upfreq, lowfreq, cutoff)] = result
@@ -394,7 +395,7 @@ class IMPoptimizer(object):
                                 key=lambda x: self.results[
                                     (scale, maxdist, upfreq, lowfreq, x)])[0]
                         except IndexError:
-                            print 'Missing dcutoff', (scale, maxdist, upfreq, lowfreq)
+                            print('Missing dcutoff', (scale, maxdist, upfreq, lowfreq))
                             continue
                         try:
                             result = self.results[(scale, maxdist,
@@ -402,7 +403,7 @@ class IMPoptimizer(object):
                             out.write('%s\t%s\t%s\t%s\t%s\t%s\n' % (
                                 scale, maxdist, upfreq, lowfreq, cut, result))
                         except KeyError:
-                            print 'KeyError', (scale, maxdist, upfreq, lowfreq, cut, result)
+                            print('KeyError', (scale, maxdist, upfreq, lowfreq, cut, result))
                             continue
         out.close()
 
@@ -1006,7 +1007,7 @@ def generate_IMPmodel(rand_init):
         o.set_kt(temperature)
         log_energies.append(o.optimize(STEPS))
         if verbose == 3:
-            print i, log_energies[-1], o.get_kt()
+            print(i, log_energies[-1], o.get_kt())
         # Calculate the score variation and check if the optimization
         # can be stopped or not
         if lownrj > 0:
@@ -1029,7 +1030,7 @@ def generate_IMPmodel(rand_init):
     #    temperature = alpha * (1.1 * nrounds - i) / nrounds
     #    o.set_kt(temperature)
     #    e = o.optimize(steps)
-    #    print str(i) + " " + str(e) + " " + str(o.get_kt())
+    #    print(str(i) + " " + str(e) + " " + str(o.get_kt()))
 
     try:
         log_energies.append(model['model'].evaluate(False))
@@ -1037,8 +1038,8 @@ def generate_IMPmodel(rand_init):
         log_energies.append(model['rs'].evaluate(False)) # 2.6.1 compat
     if verbose >=1:
         if verbose >= 2 or not rand_init % 100:
-            print 'Model %s IMP Objective Function: %s' % (
-                rand_init, log_energies[-1])
+            print('Model %s IMP Objective Function: %s' % (
+                rand_init, log_energies[-1]))
     x, y, z, radius = (FloatKey("x"), FloatKey("y"),
                        FloatKey("z"), FloatKey("radius"))
     result = IMPmodel({'log_objfun' : log_energies,
@@ -1054,8 +1055,8 @@ def generate_IMPmodel(rand_init):
         result['y'].append(part.get_value(y))
         result['z'].append(part.get_value(z))
         if verbose == 3:
-            print (part.get_name(), part.get_value(x), part.get_value(y),
-                   part.get_value(z), part.get_value(radius))
+            print(part.get_name(), part.get_value(x), part.get_value(y),
+                  part.get_value(z), part.get_value(radius))
     # gets radius from last particle, assuming that all are the same
     result['radius'] = part.get_value(radius)
     return result # rand_init, result
