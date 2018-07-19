@@ -668,7 +668,7 @@ def get_options():
 
 
     if opts.usage:
-        print __doc__
+        print(__doc__)
         exit()
 
     log = '\tSummary of arguments:\n'
