@@ -46,7 +46,7 @@ class TestTadbit(unittest.TestCase):
         
         self.assertTrue(corr[0] > 0.75)
         if CHKTIME:
-            print '12', time() - t0
+            print('12', time() - t0)
 
        
 if __name__ == "__main__":
